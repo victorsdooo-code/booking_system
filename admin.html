@@ -1,0 +1,2464 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>青苗綜合醫療診所 - 管理後台</title>
+    <style>
+        :root {
+            /* Premium Green Color Scheme */
+            --primary: #2D5016;      /* 深綠 */
+            --secondary: #4A7C23;    /* 中綠 */
+            --accent: #7CB342;       /* 淺綠 */
+            --background: #F5F9F2;   /* 淡綠白 */
+            --text: #1B1B1B;         /* 深灰 */
+            --white: #FFFFFF;
+            --danger: #dc3545;
+            --success: #28a745;
+            --warning: #ffc107;
+            --info: #17a2b8;
+            --gray-light: #f8f9fa;
+            --gray-medium: #6c757d;
+            --gray-border: #e0e0e0;
+            --shadow: 0 2px 8px rgba(45, 80, 22, 0.1);
+            --shadow-lg: 0 4px 16px rgba(45, 80, 22, 0.15);
+            --border-radius: 8px;
+        }
+        
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Microsoft JhengHei', 'Noto Sans TC', sans-serif; 
+            background: var(--background); 
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        /* ===== Login Page ===== */
+        .login-container { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 100vh; 
+            background: linear-gradient(135deg, var(--primary), var(--secondary)); 
+        }
+        
+        .login-box { 
+            background: var(--white); 
+            padding: 40px; 
+            border-radius: 12px; 
+            width: 100%; 
+            max-width: 360px; 
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2); 
+        }
+        
+        .login-box h1 { 
+            color: var(--primary); 
+            text-align: center; 
+            margin-bottom: 8px; 
+            font-size: 1.5rem;
+        }
+        
+        .login-box .subtitle {
+            text-align: center;
+            color: var(--gray-medium);
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+        
+        .login-box input { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid var(--gray-border); 
+            border-radius: 8px; 
+            margin-bottom: 16px; 
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .login-box input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(74, 124, 35, 0.1);
+        }
+        
+        .login-box button { 
+            width: 100%; 
+            padding: 14px; 
+            background: var(--primary); 
+            color: var(--white); 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        
+        .login-box button:hover { 
+            background: var(--secondary); 
+            transform: translateY(-1px);
+        }
+        
+        .login-error { 
+            color: var(--danger); 
+            text-align: center; 
+            margin-top: 12px; 
+            display: none; 
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Admin Container ===== */
+        .admin-container { 
+            display: none; 
+            min-height: 100vh; 
+        }
+        
+        .admin-container.active { 
+            display: flex; 
+        }
+        
+        /* ===== Sidebar ===== */
+        .sidebar { 
+            width: 260px; 
+            background: var(--primary); 
+            color: var(--white); 
+            padding: 20px; 
+            flex-shrink: 0;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 100;
+        }
+        
+        .sidebar-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            margin-bottom: 20px;
+        }
+        
+        .sidebar h2 { 
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .sidebar .clinic-name {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+        
+        .nav-section {
+            margin-bottom: 8px;
+        }
+        
+        .nav-btn { 
+            width: 100%; 
+            padding: 12px 16px; 
+            background: transparent; 
+            border: none; 
+            color: var(--white); 
+            text-align: left; 
+            cursor: pointer; 
+            margin-bottom: 4px; 
+            border-radius: 6px; 
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .nav-btn .icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .nav-btn.active, .nav-btn:hover { 
+            background: rgba(255,255,255,0.15); 
+        }
+        
+        .nav-btn.active {
+            background: var(--secondary);
+            font-weight: 600;
+        }
+        
+        /* ===== Main Content ===== */
+        .main-content { 
+            flex: 1; 
+            margin-left: 260px; 
+            padding: 24px; 
+            background: var(--background);
+            min-height: 100vh;
+        }
+        
+        .content-header {
+            margin-bottom: 24px;
+        }
+        
+        .content-header h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .content-header p {
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+        }
+        
+        /* ===== Section Containers ===== */
+        .section { 
+            display: none; 
+        }
+        
+        .section.active { 
+            display: block; 
+        }
+        
+        /* ===== Cards & Tables ===== */
+        .card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--gray-border);
+        }
+        
+        .card-header h3 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: var(--secondary);
+        }
+        
+        .btn-secondary {
+            background: var(--gray-light);
+            color: var(--text);
+            border: 1px solid var(--gray-border);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gray-medium);
+            color: var(--white);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: var(--white);
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: var(--text);
+        }
+        
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+        
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        
+        /* ===== Tables ===== */
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-border);
+        }
+        
+        th {
+            background: var(--gray-light);
+            font-weight: 600;
+            color: var(--primary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        th:hover {
+            background: var(--gray-medium);
+            color: var(--white);
+        }
+        
+        th.sort-asc::after {
+            content: ' ▲';
+        }
+        
+        th.sort-desc::after {
+            content: ' ▼';
+        }
+        
+        tr:hover {
+            background: rgba(74, 124, 35, 0.05);
+        }
+        
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .status-active {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+        
+        .status-inactive {
+            background: rgba(108, 117, 125, 0.1);
+            color: var(--gray-medium);
+        }
+        
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #856404;
+        }
+        
+        .status-confirmed {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+        
+        .status-cancelled {
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+        }
+        
+        /* ===== Modals ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--white);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--gray-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-medium);
+            padding: 4px;
+        }
+        
+        .modal-close:hover {
+            color: var(--text);
+        }
+        
+        .modal-body {
+            padding: 24px;
+        }
+        
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--gray-border);
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        
+        /* ===== Forms ===== */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid var(--gray-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(74, 124, 35, 0.1);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        /* ===== Doctor Cards ===== */
+        .doctor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        
+        .doctor-card {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .doctor-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .doctor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 16px;
+            border: 3px solid var(--accent);
+            background: var(--gray-light);
+        }
+        
+        .doctor-card h4 {
+            color: var(--primary);
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .doctor-card .type {
+            color: var(--secondary);
+            font-size: 0.85rem;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        
+        .doctor-card .description {
+            color: var(--gray-medium);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .doctor-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+        
+        /* ===== Calendar ===== */
+        .calendar-container {
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .calendar-nav {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .calendar-view-toggle {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 4px;
+        }
+        
+        .calendar-day-header {
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: var(--gray-medium);
+            font-size: 0.85rem;
+        }
+        
+        .calendar-day {
+            min-height: 100px;
+            padding: 8px;
+            border: 1px solid var(--gray-border);
+            border-radius: 6px;
+            background: var(--gray-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .calendar-day:hover {
+            border-color: var(--secondary);
+            background: rgba(74, 124, 35, 0.05);
+        }
+        
+        .calendar-day.other-month {
+            opacity: 0.4;
+        }
+        
+        .calendar-day.today {
+            border-color: var(--primary);
+            background: rgba(45, 80, 22, 0.1);
+        }
+        
+        .calendar-day .day-number {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .calendar-day .events {
+            font-size: 0.75rem;
+        }
+        
+        .calendar-day .event-item {
+            background: var(--secondary);
+            color: var(--white);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .calendar-day .event-item.conflict {
+            background: var(--danger);
+        }
+        
+        /* ===== Search & Filters ===== */
+        .search-filter-bar {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 250px;
+            padding: 10px 16px;
+            border: 2px solid var(--gray-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 0 3px rgba(74, 124, 35, 0.1);
+        }
+        
+        .filter-select {
+            padding: 10px 16px;
+            border: 2px solid var(--gray-border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: var(--white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--secondary);
+        }
+        
+        /* ===== Alerts & Notifications ===== */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .alert-warning {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid var(--warning);
+            color: #856404;
+        }
+        
+        .alert-danger {
+            background: rgba(220, 53, 69, 0.1);
+            border-left: 4px solid var(--danger);
+            color: #721c24;
+        }
+        
+        .alert-success {
+            background: rgba(40, 167, 69, 0.1);
+            border-left: 4px solid var(--success);
+            color: #155724;
+        }
+        
+        .alert-info {
+            background: rgba(23, 162, 184, 0.1);
+            border-left: 4px solid var(--info);
+            color: #0c5460;
+        }
+        
+        /* ===== Loading States ===== */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: var(--gray-medium);
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--gray-border);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* ===== Toggle Switch ===== */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            display: inline-block;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--gray-medium);
+            transition: 0.3s;
+            border-radius: 26px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: var(--secondary);
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(24px);
+        }
+        
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .doctor-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-grid {
+                grid-template-columns: repeat(7, 1fr);
+            }
+            
+            .calendar-day {
+                min-height: 60px;
+                padding: 4px;
+            }
+        }
+        
+        /* ===== View Tabs ===== */
+        .view-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--gray-border);
+            padding-bottom: 12px;
+        }
+        
+        .view-tab {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            color: var(--gray-medium);
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s ease;
+        }
+        
+        .view-tab:hover {
+            background: rgba(74, 124, 35, 0.05);
+        }
+        
+        .view-tab.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+        
+        /* ===== Conflict Indicator ===== */
+        .conflict-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 8px;
+            background: rgba(220, 53, 69, 0.1);
+            color: var(--danger);
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        
+        .conflict-indicator::before {
+            content: '⚠️';
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h1>🏥 管理後台</h1>
+            <p class="subtitle">青苗綜合醫療診所</p>
+            <input type="password" id="adminPassword" placeholder="請輸入管理員密碼" onkeypress="if(event.key==='Enter')login()">
+            <button onclick="login()">登入</button>
+            <p class="login-error" id="loginError">密碼錯誤，請重試</p>
+        </div>
+    </div>
+
+    <!-- Admin Container -->
+    <div class="admin-container" id="adminContainer">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>🏥 管理後台</h2>
+                <p class="clinic-name">青苗綜合醫療診所</p>
+            </div>
+            
+            <nav>
+                <div class="nav-section">
+                    <button class="nav-btn active" onclick="showSection('clinics')">
+                        <span class="icon">🏥</span>
+                        <span>門店管理</span>
+                    </button>
+                </div>
+                <div class="nav-section">
+                    <button class="nav-btn" onclick="showSection('doctors')">
+                        <span class="icon">👨‍⚕️</span>
+                        <span>醫生管理</span>
+                    </button>
+                </div>
+                <div class="nav-section">
+                    <button class="nav-btn" onclick="showSection('services')">
+                        <span class="icon">💊</span>
+                        <span>服務配置</span>
+                    </button>
+                </div>
+                <div class="nav-section">
+                    <button class="nav-btn" onclick="showSection('doctorServices')">
+                        <span class="icon">🔗</span>
+                        <span>醫生服務配置</span>
+                    </button>
+                </div>
+                <div class="nav-section">
+                    <button class="nav-btn" onclick="showSection('schedules')">
+                        <span class="icon">📅</span>
+                        <span>排班管理</span>
+                    </button>
+                </div>
+                <div class="nav-section">
+                    <button class="nav-btn" onclick="showSection('appointments')">
+                        <span class="icon">📋</span>
+                        <span>預約管理</span>
+                    </button>
+                </div>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Section 1: 門店管理 -->
+            <section id="clinics" class="section active">
+                <div class="content-header">
+                    <h1>🏥 門店管理</h1>
+                    <p>管理診所門店資訊</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>門店列表</h3>
+                        <button class="btn btn-primary" onclick="openClinicModal()">
+                            <span>➕</span> 新增門店
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table id="clinicsTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('clinicsTable', 0)">ID</th>
+                                    <th onclick="sortTable('clinicsTable', 1)">門店名稱</th>
+                                    <th onclick="sortTable('clinicsTable', 2)">電話</th>
+                                    <th onclick="sortTable('clinicsTable', 3)">地址</th>
+                                    <th onclick="sortTable('clinicsTable', 4)">營業時間</th>
+                                    <th onclick="sortTable('clinicsTable', 5)">預約窗口</th>
+                                    <th>狀態</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clinicsTableBody">
+                                <tr><td colspan="8" class="loading"><div class="spinner"></div> 載入中...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 2: 醫生管理 -->
+            <section id="doctors" class="section">
+                <div class="content-header">
+                    <h1>👨‍⚕️ 醫生管理</h1>
+                    <p>管理醫生資料及服務類型</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>醫生列表</h3>
+                        <button class="btn btn-primary" onclick="openDoctorModal()">
+                            <span>➕</span> 新增醫生
+                        </button>
+                    </div>
+                    <div class="doctor-grid" id="doctorsGrid">
+                        <div class="loading"><div class="spinner"></div> 載入中...</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 3: 服務配置 -->
+            <section id="services" class="section">
+                <div class="content-header">
+                    <h1>💊 服務配置</h1>
+                    <p>管理診療服務項目</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>服務列表</h3>
+                        <button class="btn btn-primary" onclick="openServiceModal()">
+                            <span>➕</span> 新增服務
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table id="servicesTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('servicesTable', 0)">ID</th>
+                                    <th onclick="sortTable('servicesTable', 1)">服務名稱</th>
+                                    <th onclick="sortTable('servicesTable', 2)">時長</th>
+                                    <th onclick="sortTable('servicesTable', 3)">價格</th>
+                                    <th>狀態</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="servicesTableBody">
+                                <tr><td colspan="6" class="loading"><div class="spinner"></div> 載入中...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 4: 醫生服務配置 -->
+            <section id="doctorServices" class="section">
+                <div class="content-header">
+                    <h1>🔗 醫生服務配置</h1>
+                    <p>配置醫生可提供的服務</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3>醫生服務映射</h3>
+                        <button class="btn btn-primary" onclick="openDoctorServiceModal()">
+                            <span>➕</span> 新增配置
+                        </button>
+                    </div>
+                    <div class="table-container">
+                        <table id="doctorServicesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>醫生</th>
+                                    <th>服務</th>
+                                    <th>狀態</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="doctorServicesTableBody">
+                                <tr><td colspan="5" class="loading"><div class="spinner"></div> 載入中...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: 排班管理 -->
+            <section id="schedules" class="section">
+                <div class="content-header">
+                    <h1>📅 排班管理</h1>
+                    <p>管理醫生排班及時間表</p>
+                </div>
+                
+                <div class="calendar-container">
+                    <div class="calendar-header">
+                        <div class="calendar-nav">
+                            <button class="btn btn-secondary" onclick="changeMonth(-1)">◀ 上月</button>
+                            <h3 id="currentMonth">2026 年 3 月</h3>
+                            <button class="btn btn-secondary" onclick="changeMonth(1)">下月 ▶</button>
+                        </div>
+                        <div class="calendar-view-toggle">
+                            <button class="btn btn-secondary active" onclick="setScheduleView('clinic')">按門店</button>
+                            <button class="btn btn-secondary" onclick="setScheduleView('doctor')">按醫生</button>
+                        </div>
+                        <button class="btn btn-primary" onclick="openScheduleModal()">
+                            <span>➕</span> 新增排班
+                        </button>
+                    </div>
+                    
+                    <div class="calendar-grid" id="calendarGrid">
+                        <!-- Calendar will be generated by JS -->
+                    </div>
+                </div>
+                
+                <div class="card" style="margin-top: 20px;">
+                    <div class="card-header">
+                        <h3>批量操作</h3>
+                        <button class="btn btn-secondary" onclick="openBatchCopyModal()">
+                            <span>📋</span> 批量複製
+                        </button>
+                    </div>
+                    <p style="color: var(--gray-medium);">選擇一個日期的排班，批量複製到其他日期</p>
+                </div>
+            </section>
+
+            <!-- Section 6: 預約管理 -->
+            <section id="appointments" class="section">
+                <div class="content-header">
+                    <h1>📋 預約管理</h1>
+                    <p>管理所有預約記錄</p>
+                </div>
+                
+                <div class="card">
+                    <div class="view-tabs">
+                        <button class="view-tab active" onclick="setAppointmentView('today')">今日預約</button>
+                        <button class="view-tab" onclick="setAppointmentView('calendar')">月曆視圖</button>
+                        <button class="view-tab" onclick="setAppointmentView('all')">全部記錄</button>
+                    </div>
+                    
+                    <div class="search-filter-bar">
+                        <input type="text" class="search-input" id="appointmentSearch" placeholder="搜尋病人姓名、電話或日期..." oninput="searchAppointments()">
+                        <select class="filter-select" id="appointmentStatusFilter" onchange="filterAppointments()">
+                            <option value="">全部狀態</option>
+                            <option value="pending">待確認</option>
+                            <option value="confirmed">已確認</option>
+                            <option value="cancelled">已取消</option>
+                        </select>
+                        <select class="filter-select" id="appointmentClinicFilter" onchange="filterAppointments()">
+                            <option value="">全部門店</option>
+                        </select>
+                    </div>
+                    
+                    <div class="table-container">
+                        <table id="appointmentsTable">
+                            <thead>
+                                <tr>
+                                    <th onclick="sortTable('appointmentsTable', 0)">預約 ID</th>
+                                    <th onclick="sortTable('appointmentsTable', 1)">病人姓名</th>
+                                    <th onclick="sortTable('appointmentsTable', 2)">電話</th>
+                                    <th onclick="sortTable('appointmentsTable', 3)">門店</th>
+                                    <th onclick="sortTable('appointmentsTable', 4)">醫生</th>
+                                    <th onclick="sortTable('appointmentsTable', 5)">服務</th>
+                                    <th onclick="sortTable('appointmentsTable', 6)">日期時間</th>
+                                    <th>狀態</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody id="appointmentsTableBody">
+                                <tr><td colspan="9" class="loading"><div class="spinner"></div> 載入中...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Clinic Modal -->
+    <div class="modal-overlay" id="clinicModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="clinicModalTitle">新增門店</h3>
+                <button class="modal-close" onclick="closeModal('clinicModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="clinicId">
+                <div class="form-group">
+                    <label>門店名稱 *</label>
+                    <input type="text" id="clinicName" required>
+                </div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <textarea id="clinicDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>圖片 URL</label>
+                    <input type="text" id="clinicImage" placeholder="https://...">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>電話 *</label>
+                        <input type="tel" id="clinicPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>預約窗口（天）</label>
+                        <input type="number" id="clinicBookingWindow" value="14" min="1" max="90">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>地址 *</label>
+                    <input type="text" id="clinicAddress" required>
+                </div>
+                <div class="form-group">
+                    <label>營業時間</label>
+                    <input type="text" id="clinicBusinessHours" placeholder="例如：週一至週五 9:00-18:00">
+                </div>
+                <div class="form-group">
+                    <label>狀態</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="clinicActive" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="clinicActiveLabel" style="margin-left: 10px;">啟用中</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('clinicModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveClinic()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctor Modal -->
+    <div class="modal-overlay" id="doctorModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="doctorModalTitle">新增醫生</h3>
+                <button class="modal-close" onclick="closeModal('doctorModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="doctorId">
+                <div class="form-group">
+                    <label>醫生姓名 *</label>
+                    <input type="text" id="doctorName" required>
+                </div>
+                <div class="form-group">
+                    <label>頭像 URL</label>
+                    <input type="text" id="doctorAvatar" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label>描述</label>
+                    <textarea id="doctorDescription" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>醫生類型 *</label>
+                    <select id="doctorType" required>
+                        <option value="TCM">中醫</option>
+                        <option value="Physiotherapy">物理治療</option>
+                        <option value="BoneSetting">中醫正骨</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>狀態</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="doctorActive" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="doctorActiveLabel" style="margin-left: 10px;">啟用中</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('doctorModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveDoctor()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div class="modal-overlay" id="serviceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="serviceModalTitle">新增服務</h3>
+                <button class="modal-close" onclick="closeModal('serviceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="serviceId">
+                <div class="form-group">
+                    <label>服務名稱 *</label>
+                    <input type="text" id="serviceName" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>時長（分鐘） *</label>
+                        <input type="number" id="serviceDuration" required min="15" step="15">
+                    </div>
+                    <div class="form-group">
+                        <label>價格（HKD） *</label>
+                        <input type="number" id="servicePrice" required min="0" step="50">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>狀態</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="serviceActive" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="serviceActiveLabel" style="margin-left: 10px;">啟用中</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('serviceModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveService()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Doctor Service Modal -->
+    <div class="modal-overlay" id="doctorServiceModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="doctorServiceModalTitle">新增醫生服務配置</h3>
+                <button class="modal-close" onclick="closeModal('doctorServiceModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="doctorServiceId">
+                <div class="form-group">
+                    <label>選擇醫生 *</label>
+                    <select id="doctorServiceDoctor" required>
+                        <option value="">請選擇醫生</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>選擇服務 *</label>
+                    <select id="doctorServiceService" required>
+                        <option value="">請選擇服務</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>狀態</label>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="doctorServiceActive" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                    <span id="doctorServiceActiveLabel" style="margin-left: 10px;">啟用中</span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('doctorServiceModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveDoctorService()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div class="modal-overlay" id="scheduleModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="scheduleModalTitle">新增排班</h3>
+                <button class="modal-close" onclick="closeModal('scheduleModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="scheduleId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>選擇門店 *</label>
+                        <select id="scheduleClinic" required>
+                            <option value="">請選擇門店</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>選擇醫生 *</label>
+                        <select id="scheduleDoctor" required>
+                            <option value="">請選擇醫生</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>日期 *</label>
+                        <input type="date" id="scheduleDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>時間 *</label>
+                        <select id="scheduleTime" required>
+                            <option value="">請選擇時間</option>
+                            <option value="09:00">09:00</option>
+                            <option value="09:30">09:30</option>
+                            <option value="10:00">10:00</option>
+                            <option value="10:30">10:30</option>
+                            <option value="11:00">11:00</option>
+                            <option value="11:30">11:30</option>
+                            <option value="12:00">12:00</option>
+                            <option value="12:30">12:30</option>
+                            <option value="13:00">13:00</option>
+                            <option value="13:30">13:30</option>
+                            <option value="14:00">14:00</option>
+                            <option value="14:30">14:30</option>
+                            <option value="15:00">15:00</option>
+                            <option value="15:30">15:30</option>
+                            <option value="16:00">16:00</option>
+                            <option value="16:30">16:30</option>
+                            <option value="17:00">17:00</option>
+                            <option value="17:30">17:30</option>
+                            <option value="18:00">18:00</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>服務 *</label>
+                    <select id="scheduleService" required>
+                        <option value="">請選擇服務</option>
+                    </select>
+                </div>
+                <div id="scheduleConflictAlert" class="alert alert-danger" style="display: none;">
+                    ⚠️ 此時段已有排班，可能產生衝突
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('scheduleModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveSchedule()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Batch Copy Modal -->
+    <div class="modal-overlay" id="batchCopyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>批量複製排班</h3>
+                <button class="modal-close" onclick="closeModal('batchCopyModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>複製來源日期 *</label>
+                    <input type="date" id="batchCopySourceDate" required>
+                </div>
+                <div class="form-group">
+                    <label>複製到目標日期 *</label>
+                    <input type="date" id="batchCopyTargetDates" required multiple>
+                    <p style="color: var(--gray-medium); font-size: 0.85rem; margin-top: 8px;">按住 Ctrl/Cmd 可選擇多個日期</p>
+                </div>
+                <div class="alert alert-warning">
+                    ⚠️ 注意：批量複製將覆蓋目標日期已有的排班
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('batchCopyModal')">取消</button>
+                <button class="btn btn-primary" onclick="executeBatchCopy()">執行複製</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Modal -->
+    <div class="modal-overlay" id="appointmentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="appointmentModalTitle">新增預約</h3>
+                <button class="modal-close" onclick="closeModal('appointmentModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="appointmentId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>病人姓名 *</label>
+                        <input type="text" id="appointmentPatientName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>電話 *</label>
+                        <input type="tel" id="appointmentPatientPhone" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>選擇門店 *</label>
+                        <select id="appointmentClinic" required>
+                            <option value="">請選擇門店</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>選擇醫生 *</label>
+                        <select id="appointmentDoctor" required>
+                            <option value="">請選擇醫生</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>選擇服務 *</label>
+                        <select id="appointmentService" required>
+                            <option value="">請選擇服務</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>預約日期 *</label>
+                        <input type="date" id="appointmentDate" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>預約時間 *</label>
+                    <select id="appointmentTime" required>
+                        <option value="">請選擇時間</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>備註</label>
+                    <textarea id="appointmentNotes" rows="3" placeholder="病人特殊需求或其他備註..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>狀態</label>
+                    <select id="appointmentStatus">
+                        <option value="pending">待確認</option>
+                        <option value="confirmed">已確認</option>
+                        <option value="cancelled">已取消</option>
+                    </select>
+                </div>
+                <div id="appointmentDoubleBookingAlert" class="alert alert-warning" style="display: none;">
+                    ⚠️ 此時段已有預約，將產生重複預約
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('appointmentModal')">取消</button>
+                <button class="btn btn-primary" onclick="saveAppointment()">儲存</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-overlay" id="deleteConfirmModal">
+        <div class="modal" style="max-width: 400px;">
+            <div class="modal-header">
+                <h3>確認刪除</h3>
+                <button class="modal-close" onclick="closeModal('deleteConfirmModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p id="deleteConfirmMessage">確定要刪除此項目嗎？此操作無法復原。</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal('deleteConfirmModal')">取消</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn">刪除</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== API Configuration =====
+        const API_BASE_URL = 'https://booking-system-backend-2t8v.onrender.com/api/admin';
+        const ADMIN_TOKEN = 'admin123';
+        
+        // ===== State =====
+        let currentMonth = new Date(2026, 2, 1); // March 2026
+        let scheduleView = 'clinic'; // 'clinic' or 'doctor'
+        let appointmentView = 'today'; // 'today', 'calendar', 'all'
+        let clinics = [];
+        let doctors = [];
+        let services = [];
+        let doctorServices = [];
+        let schedules = [];
+        let appointments = [];
+        
+        // ===== API Helpers =====
+        async function apiRequest(endpoint, options = {}) {
+            const url = `${API_BASE_URL}${endpoint}`;
+            const config = {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Admin-Token': ADMIN_TOKEN,
+                    ...options.headers
+                }
+            };
+            
+            try {
+                const response = await fetch(url, config);
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.message || 'API 請求失敗');
+                }
+                
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                alert('錯誤：' + error.message);
+                throw error;
+            }
+        }
+        
+        // ===== Login =====
+        function login() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_TOKEN) {
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('adminContainer').classList.add('active');
+                loadAllData();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+        
+        // ===== Navigation =====
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // Reload data for the section
+            switch(sectionId) {
+                case 'clinics': loadClinics(); break;
+                case 'doctors': loadDoctors(); break;
+                case 'services': loadServices(); break;
+                case 'doctorServices': loadDoctorServices(); break;
+                case 'schedules': renderCalendar(); break;
+                case 'appointments': loadAppointments(); break;
+            }
+        }
+        
+        // ===== Data Loading =====
+        async function loadAllData() {
+            await Promise.all([
+                loadClinics(),
+                loadDoctors(),
+                loadServices(),
+                loadDoctorServices(),
+                loadSchedules(),
+                loadAppointments()
+            ]);
+        }
+        
+        async function loadClinics() {
+            try {
+                const data = await apiRequest('/clinics');
+                clinics = data.clinics || data;
+                renderClinicsTable();
+            } catch (e) {
+                // Use mock data if API fails
+                clinics = [
+                    { id: 1, name: '青苗綜合醫療診所', description: '綜合醫療服務', phone: '2123-4567', address: '香港島中環', businessHours: '週一至週五 9:00-18:00', bookingWindow: 14, active: true },
+                    { id: 2, name: '青苗中藥房', description: '中藥配劑服務', phone: '2123-4568', address: '九龍尖沙咀', businessHours: '週一至週六 10:00-19:00', bookingWindow: 7, active: true }
+                ];
+                renderClinicsTable();
+            }
+        }
+        
+        async function loadDoctors() {
+            try {
+                const data = await apiRequest('/doctors');
+                doctors = data.doctors || data;
+                renderDoctorsGrid();
+            } catch (e) {
+                doctors = [
+                    { id: 1, name: '陳醫生', avatar: '', description: '資深中醫，擅長內科調理', type: 'TCM', active: true },
+                    { id: 2, name: '李醫生', avatar: '', description: '物理治療專家', type: 'Physiotherapy', active: true },
+                    { id: 3, name: '王醫生', avatar: '', description: '中醫正骨傳承', type: 'BoneSetting', active: true }
+                ];
+                renderDoctorsGrid();
+            }
+        }
+        
+        async function loadServices() {
+            try {
+                const data = await apiRequest('/services');
+                services = data.services || data;
+                renderServicesTable();
+            } catch (e) {
+                services = [
+                    { id: 1, name: '問診', duration: 15, price: 200, active: true },
+                    { id: 2, name: '治療', duration: 45, price: 500, active: true },
+                    { id: 3, name: '物理治療', duration: 60, price: 600, active: true },
+                    { id: 4, name: '中醫正骨', duration: 60, price: 650, active: true }
+                ];
+                renderServicesTable();
+            }
+        }
+        
+        async function loadDoctorServices() {
+            try {
+                const data = await apiRequest('/doctor-services');
+                doctorServices = data.doctorServices || data;
+                renderDoctorServicesTable();
+            } catch (e) {
+                doctorServices = [
+                    { id: 1, doctorId: 1, serviceId: 1, active: true },
+                    { id: 2, doctorId: 1, serviceId: 2, active: true },
+                    { id: 3, doctorId: 2, serviceId: 3, active: true },
+                    { id: 4, doctorId: 3, serviceId: 4, active: true }
+                ];
+                renderDoctorServicesTable();
+            }
+        }
+        
+        async function loadSchedules() {
+            try {
+                const data = await apiRequest('/schedules');
+                schedules = data.schedules || data;
+                renderCalendar();
+            } catch (e) {
+                schedules = [];
+                renderCalendar();
+            }
+        }
+        
+        async function loadAppointments() {
+            try {
+                const data = await apiRequest('/appointments');
+                appointments = data.appointments || data;
+                renderAppointmentsTable();
+            } catch (e) {
+                appointments = [];
+                renderAppointmentsTable();
+            }
+        }
+        
+        // ===== Render Functions =====
+        function renderClinicsTable() {
+            const tbody = document.getElementById('clinicsTableBody');
+            tbody.innerHTML = clinics.map(c => `
+                <tr>
+                    <td>${c.id}</td>
+                    <td>${c.name}</td>
+                    <td>${c.phone}</td>
+                    <td>${c.address}</td>
+                    <td>${c.businessHours || '-'}</td>
+                    <td>${c.bookingWindow || 14}天</td>
+                    <td><span class="status-badge ${c.active ? 'status-active' : 'status-inactive'}">${c.active ? '啟用' : '停用'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="editClinic(${c.id})">編輯</button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('clinic', ${c.id})">刪除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderDoctorsGrid() {
+            const grid = document.getElementById('doctorsGrid');
+            const typeNames = { 'TCM': '中醫', 'Physiotherapy': '物理治療', 'BoneSetting': '中醫正骨' };
+            
+            grid.innerHTML = doctors.map(d => `
+                <div class="doctor-card">
+                    <img src="${d.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%234A7C23%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2240%22>${d.name.charAt(0)}</text></svg>'}" 
+                         alt="${d.name}" class="doctor-avatar">
+                    <h4>${d.name}</h4>
+                    <p class="type">${typeNames[d.type] || d.type}</p>
+                    <p class="description">${d.description || '暫無描述'}</p>
+                    <div class="doctor-actions">
+                        <button class="btn btn-sm btn-secondary" onclick="editDoctor(${d.id})">編輯</button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('doctor', ${d.id})">刪除</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderServicesTable() {
+            const tbody = document.getElementById('servicesTableBody');
+            tbody.innerHTML = services.map(s => `
+                <tr>
+                    <td>${s.id}</td>
+                    <td>${s.name}</td>
+                    <td>${s.duration}分鐘</td>
+                    <td>$${s.price}</td>
+                    <td><span class="status-badge ${s.active ? 'status-active' : 'status-inactive'}">${s.active ? '啟用' : '停用'}</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-secondary" onclick="editService(${s.id})">編輯</button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('service', ${s.id})">刪除</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+        
+        function renderDoctorServicesTable() {
+            const tbody = document.getElementById('doctorServicesTableBody');
+            tbody.innerHTML = doctorServices.map(ds => {
+                const doctor = doctors.find(d => d.id === ds.doctorId);
+                const service = services.find(s => s.id === ds.serviceId);
+                return `
+                    <tr>
+                        <td>${ds.id}</td>
+                        <td>${doctor ? doctor.name : '未知'}</td>
+                        <td>${service ? service.name : '未知'}</td>
+                        <td><span class="status-badge ${ds.active ? 'status-active' : 'status-inactive'}">${ds.active ? '啟用' : '停用'}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" onclick="editDoctorService(${ds.id})">編輯</button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('doctorService', ${ds.id})">刪除</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+        
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const year = currentMonth.getFullYear();
+            const month = currentMonth.getMonth();
+            
+            document.getElementById('currentMonth').textContent = `${year}年${month + 1}月`;
+            
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const startDay = firstDay.getDay();
+            const totalDays = lastDay.getDate();
+            
+            const today = new Date();
+            const isToday = (d) => d === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+            
+            let html = '';
+            const dayNames = ['日', '一', '二', '三', '四', '五', '六'];
+            dayNames.forEach(name => {
+                html += `<div class="calendar-day-header">${name}</div>`;
+            });
+            
+            // Previous month days
+            const prevMonth = new Date(year, month, 0);
+            for (let i = startDay - 1; i >= 0; i--) {
+                html += `<div class="calendar-day other-month"><div class="day-number">${prevMonth.getDate() - i}</div></div>`;
+            }
+            
+            // Current month days
+            for (let d = 1; d <= totalDays; d++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+                const daySchedules = schedules.filter(s => s.date === dateStr);
+                const events = daySchedules.map(s => {
+                    const doctor = doctors.find(doc => doc.id === s.doctorId);
+                    return `<div class="event-item ${s.conflict ? 'conflict' : ''}">${doctor ? doctor.name : '醫生'} ${s.time}</div>`;
+                }).join('');
+                
+                html += `
+                    <div class="calendar-day ${isToday(d) ? 'today' : ''}" onclick="openScheduleModal('${dateStr}')">
+                        <div class="day-number">${d}</div>
+                        <div class="events">${events}</div>
+                    </div>
+                `;
+            }
+            
+            // Next month days
+            const remaining = 42 - (startDay + totalDays);
+            for (let i = 1; i <= remaining; i++) {
+                html += `<div class="calendar-day other-month"><div class="day-number">${i}</div></div>`;
+            }
+            
+            grid.innerHTML = html;
+        }
+        
+        function renderAppointmentsTable() {
+            const tbody = document.getElementById('appointmentsTableBody');
+            let filtered = appointments;
+            
+            // Apply filters
+            const searchTerm = document.getElementById('appointmentSearch').value.toLowerCase();
+            const statusFilter = document.getElementById('appointmentStatusFilter').value;
+            const clinicFilter = document.getElementById('appointmentClinicFilter').value;
+            
+            if (searchTerm) {
+                filtered = filtered.filter(a => 
+                    a.patientName?.toLowerCase().includes(searchTerm) ||
+                    a.patientPhone?.includes(searchTerm) ||
+                    a.date?.includes(searchTerm)
+                );
+            }
+            if (statusFilter) {
+                filtered = filtered.filter(a => a.status === statusFilter);
+            }
+            if (clinicFilter) {
+                filtered = filtered.filter(a => String(a.clinicId) === clinicFilter);
+            }
+            
+            // Apply view filter
+            if (appointmentView === 'today') {
+                const today = new Date().toISOString().split('T')[0];
+                filtered = filtered.filter(a => a.date === today);
+            }
+            
+            const statusNames = { 'pending': '待確認', 'confirmed': '已確認', 'cancelled': '已取消' };
+            
+            tbody.innerHTML = filtered.map(a => {
+                const clinic = clinics.find(c => c.id === a.clinicId);
+                const doctor = doctors.find(d => d.id === a.doctorId);
+                const service = services.find(s => s.id === a.serviceId);
+                
+                return `
+                    <tr>
+                        <td>${a.id}</td>
+                        <td>${a.patientName}</td>
+                        <td>${a.patientPhone}</td>
+                        <td>${clinic ? clinic.name : '-'}</td>
+                        <td>${doctor ? doctor.name : '-'}</td>
+                        <td>${service ? service.name : '-'}</td>
+                        <td>${a.date} ${a.time}</td>
+                        <td><span class="status-badge status-${a.status}">${statusNames[a.status] || a.status}</span></td>
+                        <td>
+                            <button class="btn btn-sm btn-secondary" onclick="editAppointment(${a.id})">編輯</button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('appointment', ${a.id})">刪除</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('') || '<tr><td colspan="9" style="text-align:center;padding:40px;">暫無預約記錄</td></tr>';
+        }
+        
+        // ===== Modal Functions =====
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+        
+        function openClinicModal() {
+            document.getElementById('clinicModalTitle').textContent = '新增門店';
+            document.getElementById('clinicId').value = '';
+            document.getElementById('clinicName').value = '';
+            document.getElementById('clinicDescription').value = '';
+            document.getElementById('clinicImage').value = '';
+            document.getElementById('clinicPhone').value = '';
+            document.getElementById('clinicAddress').value = '';
+            document.getElementById('clinicBusinessHours').value = '';
+            document.getElementById('clinicBookingWindow').value = '14';
+            document.getElementById('clinicActive').checked = true;
+            document.getElementById('clinicModal').classList.add('active');
+        }
+        
+        function editClinic(id) {
+            const clinic = clinics.find(c => c.id === id);
+            if (!clinic) return;
+            
+            document.getElementById('clinicModalTitle').textContent = '編輯門店';
+            document.getElementById('clinicId').value = clinic.id;
+            document.getElementById('clinicName').value = clinic.name;
+            document.getElementById('clinicDescription').value = clinic.description || '';
+            document.getElementById('clinicImage').value = clinic.image || '';
+            document.getElementById('clinicPhone').value = clinic.phone;
+            document.getElementById('clinicAddress').value = clinic.address;
+            document.getElementById('clinicBusinessHours').value = clinic.businessHours || '';
+            document.getElementById('clinicBookingWindow').value = clinic.bookingWindow || 14;
+            document.getElementById('clinicActive').checked = clinic.active;
+            document.getElementById('clinicModal').classList.add('active');
+        }
+        
+        function openDoctorModal() {
+            document.getElementById('doctorModalTitle').textContent = '新增醫生';
+            document.getElementById('doctorId').value = '';
+            document.getElementById('doctorName').value = '';
+            document.getElementById('doctorAvatar').value = '';
+            document.getElementById('doctorDescription').value = '';
+            document.getElementById('doctorType').value = 'TCM';
+            document.getElementById('doctorActive').checked = true;
+            document.getElementById('doctorModal').classList.add('active');
+        }
+        
+        function editDoctor(id) {
+            const doctor = doctors.find(d => d.id === id);
+            if (!doctor) return;
+            
+            document.getElementById('doctorModalTitle').textContent = '編輯醫生';
+            document.getElementById('doctorId').value = doctor.id;
+            document.getElementById('doctorName').value = doctor.name;
+            document.getElementById('doctorAvatar').value = doctor.avatar || '';
+            document.getElementById('doctorDescription').value = doctor.description || '';
+            document.getElementById('doctorType').value = doctor.type;
+            document.getElementById('doctorActive').checked = doctor.active;
+            document.getElementById('doctorModal').classList.add('active');
+        }
+        
+        function openServiceModal() {
+            document.getElementById('serviceModalTitle').textContent = '新增服務';
+            document.getElementById('serviceId').value = '';
+            document.getElementById('serviceName').value = '';
+            document.getElementById('serviceDuration').value = '';
+            document.getElementById('servicePrice').value = '';
+            document.getElementById('serviceActive').checked = true;
+            document.getElementById('serviceModal').classList.add('active');
+        }
+        
+        function editService(id) {
+            const service = services.find(s => s.id === id);
+            if (!service) return;
+            
+            document.getElementById('serviceModalTitle').textContent = '編輯服務';
+            document.getElementById('serviceId').value = service.id;
+            document.getElementById('serviceName').value = service.name;
+            document.getElementById('serviceDuration').value = service.duration;
+            document.getElementById('servicePrice').value = service.price;
+            document.getElementById('serviceActive').checked = service.active;
+            document.getElementById('serviceModal').classList.add('active');
+        }
+        
+        function openDoctorServiceModal() {
+            populateDoctorSelects();
+            document.getElementById('doctorServiceModalTitle').textContent = '新增醫生服務配置';
+            document.getElementById('doctorServiceId').value = '';
+            document.getElementById('doctorServiceDoctor').value = '';
+            document.getElementById('doctorServiceService').value = '';
+            document.getElementById('doctorServiceActive').checked = true;
+            document.getElementById('doctorServiceModal').classList.add('active');
+        }
+        
+        function editDoctorService(id) {
+            populateDoctorSelects();
+            const ds = doctorServices.find(d => d.id === id);
+            if (!ds) return;
+            
+            document.getElementById('doctorServiceModalTitle').textContent = '編輯醫生服務配置';
+            document.getElementById('doctorServiceId').value = ds.id;
+            document.getElementById('doctorServiceDoctor').value = ds.doctorId;
+            document.getElementById('doctorServiceService').value = ds.serviceId;
+            document.getElementById('doctorServiceActive').checked = ds.active;
+            document.getElementById('doctorServiceModal').classList.add('active');
+        }
+        
+        function openScheduleModal(date) {
+            populateScheduleSelects();
+            document.getElementById('scheduleModalTitle').textContent = '新增排班';
+            document.getElementById('scheduleId').value = '';
+            document.getElementById('scheduleDate').value = date || '';
+            document.getElementById('scheduleClinic').value = '';
+            document.getElementById('scheduleDoctor').value = '';
+            document.getElementById('scheduleTime').value = '';
+            document.getElementById('scheduleService').value = '';
+            document.getElementById('scheduleConflictAlert').style.display = 'none';
+            document.getElementById('scheduleModal').classList.add('active');
+        }
+        
+        function openBatchCopyModal() {
+            document.getElementById('batchCopySourceDate').value = '';
+            document.getElementById('batchCopyTargetDates').value = '';
+            document.getElementById('batchCopyModal').classList.add('active');
+        }
+        
+        function openAppointmentModal() {
+            populateAppointmentSelects();
+            document.getElementById('appointmentModalTitle').textContent = '新增預約';
+            document.getElementById('appointmentId').value = '';
+            document.getElementById('appointmentPatientName').value = '';
+            document.getElementById('appointmentPatientPhone').value = '';
+            document.getElementById('appointmentClinic').value = '';
+            document.getElementById('appointmentDoctor').value = '';
+            document.getElementById('appointmentService').value = '';
+            document.getElementById('appointmentDate').value = '';
+            document.getElementById('appointmentTime').value = '';
+            document.getElementById('appointmentNotes').value = '';
+            document.getElementById('appointmentStatus').value = 'pending';
+            document.getElementById('appointmentDoubleBookingAlert').style.display = 'none';
+            document.getElementById('appointmentModal').classList.add('active');
+        }
+        
+        function editAppointment(id) {
+            populateAppointmentSelects();
+            const apt = appointments.find(a => a.id === id);
+            if (!apt) return;
+            
+            document.getElementById('appointmentModalTitle').textContent = '編輯預約';
+            document.getElementById('appointmentId').value = apt.id;
+            document.getElementById('appointmentPatientName').value = apt.patientName;
+            document.getElementById('appointmentPatientPhone').value = apt.patientPhone;
+            document.getElementById('appointmentClinic').value = apt.clinicId;
+            document.getElementById('appointmentDoctor').value = apt.doctorId;
+            document.getElementById('appointmentService').value = apt.serviceId;
+            document.getElementById('appointmentDate').value = apt.date;
+            document.getElementById('appointmentTime').value = apt.time;
+            document.getElementById('appointmentNotes').value = apt.notes || '';
+            document.getElementById('appointmentStatus').value = apt.status;
+            document.getElementById('appointmentModal').classList.add('active');
+        }
+        
+        // ===== Helper Functions =====
+        function populateDoctorSelects() {
+            const doctorSelect = document.getElementById('doctorServiceDoctor');
+            doctorSelect.innerHTML = '<option value="">請選擇醫生</option>' + 
+                doctors.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+            
+            const serviceSelect = document.getElementById('doctorServiceService');
+            serviceSelect.innerHTML = '<option value="">請選擇服務</option>' + 
+                services.map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        }
+        
+        function populateScheduleSelects() {
+            const clinicSelect = document.getElementById('scheduleClinic');
+            clinicSelect.innerHTML = '<option value="">請選擇門店</option>' + 
+                clinics.filter(c => c.active).map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            
+            const doctorSelect = document.getElementById('scheduleDoctor');
+            doctorSelect.innerHTML = '<option value="">請選擇醫生</option>' + 
+                doctors.filter(d => d.active).map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+            
+            const serviceSelect = document.getElementById('scheduleService');
+            serviceSelect.innerHTML = '<option value="">請選擇服務</option>' + 
+                services.filter(s => s.active).map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        }
+        
+        function populateAppointmentSelects() {
+            populateScheduleSelects();
+            
+            const clinicSelect = document.getElementById('appointmentClinic');
+            clinicSelect.innerHTML = '<option value="">請選擇門店</option>' + 
+                clinics.filter(c => c.active).map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+            
+            const doctorSelect = document.getElementById('appointmentDoctor');
+            doctorSelect.innerHTML = '<option value="">請選擇醫生</option>' + 
+                doctors.filter(d => d.active).map(d => `<option value="${d.id}">${d.name}</option>`).join('');
+            
+            const serviceSelect = document.getElementById('appointmentService');
+            serviceSelect.innerHTML = '<option value="">請選擇服務</option>' + 
+                services.filter(s => s.active).map(s => `<option value="${s.id}">${s.name}</option>`).join('');
+        }
+        
+        function sortTable(tableId, column) {
+            const table = document.getElementById(tableId);
+            const headers = table.querySelectorAll('th');
+            const tbody = table.querySelector('tbody');
+            const rows = Array.from(tbody.querySelectorAll('tr'));
+            
+            headers.forEach(h => h.classList.remove('sort-asc', 'sort-desc'));
+            
+            const isAsc = headers[column].classList.contains('sort-desc');
+            headers[column].classList.add(isAsc ? 'sort-asc' : 'sort-desc');
+            
+            rows.sort((a, b) => {
+                const aText = a.cells[column].textContent.trim();
+                const bText = b.cells[column].textContent.trim();
+                const aNum = parseFloat(aText);
+                const bNum = parseFloat(bText);
+                
+                if (!isNaN(aNum) && !isNaN(bNum)) {
+                    return isAsc ? aNum - bNum : bNum - aNum;
+                }
+                return isAsc ? aText.localeCompare(bText, 'zh-HK') : bText.localeCompare(aText, 'zh-HK');
+            });
+            
+            tbody.innerHTML = rows.map(r => r.outerHTML).join('');
+        }
+        
+        function searchAppointments() {
+            renderAppointmentsTable();
+        }
+        
+        function filterAppointments() {
+            renderAppointmentsTable();
+        }
+        
+        function setAppointmentView(view) {
+            appointmentView = view;
+            document.querySelectorAll('.view-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+            renderAppointmentsTable();
+        }
+        
+        function changeMonth(delta) {
+            currentMonth.setMonth(currentMonth.getMonth() + delta);
+            renderCalendar();
+        }
+        
+        function setScheduleView(view) {
+            scheduleView = view;
+            document.querySelectorAll('.calendar-view-toggle .btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+        
+        // ===== Save Functions =====
+        async function saveClinic() {
+            const id = document.getElementById('clinicId').value;
+            const clinic = {
+                name: document.getElementById('clinicName').value,
+                description: document.getElementById('clinicDescription').value,
+                image: document.getElementById('clinicImage').value,
+                phone: document.getElementById('clinicPhone').value,
+                address: document.getElementById('clinicAddress').value,
+                businessHours: document.getElementById('clinicBusinessHours').value,
+                bookingWindow: parseInt(document.getElementById('clinicBookingWindow').value),
+                active: document.getElementById('clinicActive').checked
+            };
+            
+            try {
+                if (id) {
+                    await apiRequest(`/clinics/${id}`, { method: 'PUT', body: JSON.stringify(clinic) });
+                } else {
+                    await apiRequest('/clinics', { method: 'POST', body: JSON.stringify(clinic) });
+                }
+                closeModal('clinicModal');
+                loadClinics();
+            } catch (e) {
+                // Mock save
+                if (id) {
+                    const idx = clinics.findIndex(c => c.id == id);
+                    clinics[idx] = { ...clinic, id: parseInt(id) };
+                } else {
+                    clinic.id = Math.max(...clinics.map(c => c.id), 0) + 1;
+                    clinics.push(clinic);
+                }
+                closeModal('clinicModal');
+                renderClinicsTable();
+            }
+        }
+        
+        async function saveDoctor() {
+            const id = document.getElementById('doctorId').value;
+            const doctor = {
+                name: document.getElementById('doctorName').value,
+                avatar: document.getElementById('doctorAvatar').value,
+                description: document.getElementById('doctorDescription').value,
+                type: document.getElementById('doctorType').value,
+                active: document.getElementById('doctorActive').checked
+            };
+            
+            try {
+                if (id) {
+                    await apiRequest(`/doctors/${id}`, { method: 'PUT', body: JSON.stringify(doctor) });
+                } else {
+                    await apiRequest('/doctors', { method: 'POST', body: JSON.stringify(doctor) });
+                }
+                closeModal('doctorModal');
+                loadDoctors();
+            } catch (e) {
+                if (id) {
+                    const idx = doctors.findIndex(d => d.id == id);
+                    doctors[idx] = { ...doctor, id: parseInt(id) };
+                } else {
+                    doctor.id = Math.max(...doctors.map(d => d.id), 0) + 1;
+                    doctors.push(doctor);
+                }
+                closeModal('doctorModal');
+                renderDoctorsGrid();
+            }
+        }
+        
+        async function saveService() {
+            const id = document.getElementById('serviceId').value;
+            const service = {
+                name: document.getElementById('serviceName').value,
+                duration: parseInt(document.getElementById('serviceDuration').value),
+                price: parseFloat(document.getElementById('servicePrice').value),
+                active: document.getElementById('serviceActive').checked
+            };
+            
+            try {
+                if (id) {
+                    await apiRequest(`/services/${id}`, { method: 'PUT', body: JSON.stringify(service) });
+                } else {
+                    await apiRequest('/services', { method: 'POST', body: JSON.stringify(service) });
+                }
+                closeModal('serviceModal');
+                loadServices();
+            } catch (e) {
+                if (id) {
+                    const idx = services.findIndex(s => s.id == id);
+                    services[idx] = { ...service, id: parseInt(id) };
+                } else {
+                    service.id = Math.max(...services.map(s => s.id), 0) + 1;
+                    services.push(service);
+                }
+                closeModal('serviceModal');
+                renderServicesTable();
+            }
+        }
+        
+        async function saveDoctorService() {
+            const id = document.getElementById('doctorServiceId').value;
+            const ds = {
+                doctorId: parseInt(document.getElementById('doctorServiceDoctor').value),
+                serviceId: parseInt(document.getElementById('doctorServiceService').value),
+                active: document.getElementById('doctorServiceActive').checked
+            };
+            
+            try {
+                if (id) {
+                    await apiRequest(`/doctor-services/${id}`, { method: 'PUT', body: JSON.stringify(ds) });
+                } else {
+                    await apiRequest('/doctor-services', { method: 'POST', body: JSON.stringify(ds) });
+                }
+                closeModal('doctorServiceModal');
+                loadDoctorServices();
+            } catch (e) {
+                if (id) {
+                    const idx = doctorServices.findIndex(d => d.id == id);
+                    doctorServices[idx] = { ...ds, id: parseInt(id) };
+                } else {
+                    ds.id = Math.max(...doctorServices.map(d => d.id), 0) + 1;
+                    doctorServices.push(ds);
+                }
+                closeModal('doctorServiceModal');
+                renderDoctorServicesTable();
+            }
+        }
+        
+        async function saveSchedule() {
+            const id = document.getElementById('scheduleId').value;
+            const schedule = {
+                clinicId: parseInt(document.getElementById('scheduleClinic').value),
+                doctorId: parseInt(document.getElementById('scheduleDoctor').value),
+                date: document.getElementById('scheduleDate').value,
+                time: document.getElementById('scheduleTime').value,
+                serviceId: parseInt(document.getElementById('scheduleService').value)
+            };
+            
+            try {
+                if (id) {
+                    await apiRequest(`/schedules/${id}`, { method: 'PUT', body: JSON.stringify(schedule) });
+                } else {
+                    await apiRequest('/schedules', { method: 'POST', body: JSON.stringify(schedule) });
+                }
+                closeModal('scheduleModal');
+                loadSchedules();
+            } catch (e) {
+                if (id) {
+                    const idx = schedules.findIndex(s => s.id == id);
+                    schedules[idx] = { ...schedule, id: parseInt(id) };
+                } else {
+                    schedule.id = Math.max(...schedules.map(s => s.id), 0) + 1;
+                    schedules.push(schedule);
+                }
+                closeModal('scheduleModal');
+                renderCalendar();
+            }
+        }
+        
+        async function saveAppointment() {
+            const id = document.getElementById('appointmentId').value;
+            const apt = {
+                patientName: document.getElementById('appointmentPatientName').value,
+                patientPhone: document.getElementById('appointmentPatientPhone').value,
+                clinicId: parseInt(document.getElementById('appointmentClinic').value),
+                doctorId: parseInt(document.getElementById('appointmentDoctor').value),
+                serviceId: parseInt(document.getElementById('appointmentService').value),
+                date: document.getElementById('appointmentDate').value,
+                time: document.getElementById('appointmentTime').value,
+                notes: document.getElementById('appointmentNotes').value,
+                status: document.getElementById('appointmentStatus').value
+            };
+            
+            try {
+                if (id) {
+                    await apiRequest(`/appointments/${id}`, { method: 'PUT', body: JSON.stringify(apt) });
+                } else {
+                    await apiRequest('/appointments', { method: 'POST', body: JSON.stringify(apt) });
+                }
+                closeModal('appointmentModal');
+                loadAppointments();
+            } catch (e) {
+                if (id) {
+                    const idx = appointments.findIndex(a => a.id == id);
+                    appointments[idx] = { ...apt, id: parseInt(id) };
+                } else {
+                    apt.id = Math.max(...appointments.map(a => a.id), 0) + 1;
+                    appointments.push(apt);
+                }
+                closeModal('appointmentModal');
+                renderAppointmentsTable();
+            }
+        }
+        
+        // ===== Delete Functions =====
+        let deleteCallback = null;
+        
+        function confirmDelete(type, id) {
+            const messages = {
+                clinic: '確定要刪除此門店嗎？',
+                doctor: '確定要刪除此醫生嗎？',
+                service: '確定要刪除此服務嗎？',
+                doctorService: '確定要刪除此醫生服務配置嗎？',
+                schedule: '確定要刪除此排班嗎？',
+                appointment: '確定要刪除此預約嗎？'
+            };
+            
+            document.getElementById('deleteConfirmMessage').textContent = messages[type] || '確定要刪除嗎？';
+            deleteCallback = () => executeDelete(type, id);
+            document.getElementById('confirmDeleteBtn').onclick = () => {
+                deleteCallback();
+                closeModal('deleteConfirmModal');
+            };
+            document.getElementById('deleteConfirmModal').classList.add('active');
+        }
+        
+        async function executeDelete(type, id) {
+            const endpoints = {
+                clinic: '/clinics',
+                doctor: '/doctors',
+                service: '/services',
+                doctorService: '/doctor-services',
+                schedule: '/schedules',
+                appointment: '/appointments'
+            };
+            
+            try {
+                await apiRequest(`${endpoints[type]}/${id}`, { method: 'DELETE' });
+                
+                switch(type) {
+                    case 'clinic': loadClinics(); break;
+                    case 'doctor': loadDoctors(); break;
+                    case 'service': loadServices(); break;
+                    case 'doctorService': loadDoctorServices(); break;
+                    case 'schedule': loadSchedules(); break;
+                    case 'appointment': loadAppointments(); break;
+                }
+            } catch (e) {
+                // Mock delete
+                switch(type) {
+                    case 'clinic':
+                        clinics = clinics.filter(c => c.id !== id);
+                        renderClinicsTable();
+                        break;
+                    case 'doctor':
+                        doctors = doctors.filter(d => d.id !== id);
+                        renderDoctorsGrid();
+                        break;
+                    case 'service':
+                        services = services.filter(s => s.id !== id);
+                        renderServicesTable();
+                        break;
+                    case 'doctorService':
+                        doctorServices = doctorServices.filter(d => d.id !== id);
+                        renderDoctorServicesTable();
+                        break;
+                    case 'schedule':
+                        schedules = schedules.filter(s => s.id !== id);
+                        renderCalendar();
+                        break;
+                    case 'appointment':
+                        appointments = appointments.filter(a => a.id !== id);
+                        renderAppointmentsTable();
+                        break;
+                }
+            }
+        }
+        
+        async function executeBatchCopy() {
+            const sourceDate = document.getElementById('batchCopySourceDate').value;
+            const targetDates = document.getElementById('batchCopyTargetDates').value;
+            
+            if (!sourceDate || !targetDates) {
+                alert('請選擇來源日期和目標日期');
+                return;
+            }
+            
+            const sourceSchedules = schedules.filter(s => s.date === sourceDate);
+            
+            try {
+                for (const targetDate of targetDates.split(',')) {
+                    for (const schedule of sourceSchedules) {
+                        const newSchedule = {
+                            ...schedule,
+                            date: targetDate,
+                            id: undefined
+                        };
+                        await apiRequest('/schedules', { method: 'POST', body: JSON.stringify(newSchedule) });
+                    }
+                }
+                closeModal('batchCopyModal');
+                loadSchedules();
+                alert('批量複製完成！');
+            } catch (e) {
+                // Mock batch copy
+                for (const targetDate of targetDates.split(',')) {
+                    for (const schedule of sourceSchedules) {
+                        schedules.push({
+                            ...schedule,
+                            id: Math.max(...schedules.map(s => s.id), 0) + 1,
+                            date: targetDate
+                        });
+                    }
+                }
+                closeModal('batchCopyModal');
+                renderCalendar();
+                alert('批量複製完成！');
+            }
+        }
+        
+        // ===== Toggle Label Updates =====
+        document.getElementById('clinicActive')?.addEventListener('change', function() {
+            document.getElementById('clinicActiveLabel').textContent = this.checked ? '啟用中' : '已停用';
+        });
+        
+        document.getElementById('doctorActive')?.addEventListener('change', function() {
+            document.getElementById('doctorActiveLabel').textContent = this.checked ? '啟用中' : '已停用';
+        });
+        
+        document.getElementById('serviceActive')?.addEventListener('change', function() {
+            document.getElementById('serviceActiveLabel').textContent = this.checked ? '啟用中' : '已停用';
+        });
+        
+        document.getElementById('doctorServiceActive')?.addEventListener('change', function() {
+            document.getElementById('doctorServiceActiveLabel').textContent = this.checked ? '啟用中' : '已停用';
+        });
+        
+        // ===== Initialize =====
+        // Check if already logged in (for development)
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('adminContainer').classList.add('active');
+            loadAllData();
+        }
+    </script>
+</body>
+</html>
