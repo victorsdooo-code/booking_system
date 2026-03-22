@@ -1855,7 +1855,8 @@
                     throw new Error(data.message || 'API 請求失敗');
                 }
                 
-                return data;
+                // Backend returns { success: true, data: [...] }, extract the actual data
+                return data.data || data;
             } catch (error) {
                 console.error('API Error:', error);
                 alert('錯誤：' + error.message);
@@ -1909,7 +1910,7 @@
         async function loadClinics() {
             try {
                 const data = await apiRequest('/clinics');
-                clinics = data.clinics || data;
+                clinics = data;
                 renderClinicsTable();
             } catch (e) {
                 // Use mock data if API fails
@@ -1958,7 +1959,7 @@
         async function loadDoctors() {
             try {
                 const data = await apiRequest('/doctors');
-                doctors = data.doctors || data;
+                doctors = data;
                 renderDoctorsGrid();
             } catch (e) {
                 doctors = [
@@ -1973,7 +1974,7 @@
         async function loadServices() {
             try {
                 const data = await apiRequest('/services');
-                services = data.services || data;
+                services = data;
                 renderServicesTable();
             } catch (e) {
                 services = [
@@ -1989,7 +1990,7 @@
         async function loadDoctorServices() {
             try {
                 const data = await apiRequest('/doctor-services');
-                doctorServices = data.doctorServices || data;
+                doctorServices = data;
                 renderDoctorServicesTable();
             } catch (e) {
                 doctorServices = [
@@ -2005,7 +2006,7 @@
         async function loadSchedules() {
             try {
                 const data = await apiRequest('/schedules');
-                schedules = data.schedules || data;
+                schedules = data;
                 renderCalendar();
             } catch (e) {
                 schedules = [];
@@ -2016,7 +2017,7 @@
         async function loadAppointments() {
             try {
                 const data = await apiRequest('/appointments');
-                appointments = data.appointments || data;
+                appointments = data;
                 renderAppointmentsTable();
             } catch (e) {
                 appointments = [];
