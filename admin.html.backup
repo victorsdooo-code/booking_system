@@ -1169,302 +1169,7 @@
                 </div>
                 <div class="form-group">
                     <label>營業時間</label>
-                    <div class="business-hours-grid" style="display: grid; gap: 12px; margin-top: 8px;">
-                        <!-- Monday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期一</label>
-                            <input type="checkbox" id="monday-open" checked style="width: auto;">
-                            <select id="monday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="monday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                        <!-- Tuesday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期二</label>
-                            <input type="checkbox" id="tuesday-open" checked style="width: auto;">
-                            <select id="tuesday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="tuesday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                        <!-- Wednesday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期三</label>
-                            <input type="checkbox" id="wednesday-open" checked style="width: auto;">
-                            <select id="wednesday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="wednesday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                        <!-- Thursday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期四</label>
-                            <input type="checkbox" id="thursday-open" checked style="width: auto;">
-                            <select id="thursday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="thursday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                        <!-- Friday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期五</label>
-                            <input type="checkbox" id="friday-open" checked style="width: auto;">
-                            <select id="friday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="friday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                        <!-- Saturday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期六</label>
-                            <input type="checkbox" id="saturday-open" style="width: auto;">
-                            <select id="saturday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="saturday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                        <!-- Sunday -->
-                        <div class="day-row" style="display: flex; align-items: center; gap: 8px;">
-                            <label style="min-width: 60px;">星期日</label>
-                            <input type="checkbox" id="sunday-open" style="width: auto;">
-                            <select id="sunday-open-time" style="flex: 1;">
-                                <option value="09:00">09:00</option>
-                                <option value="09:30">09:30</option>
-                                <option value="10:00">10:00</option>
-                                <option value="10:30">10:30</option>
-                                <option value="11:00">11:00</option>
-                                <option value="11:30">11:30</option>
-                                <option value="12:00">12:00</option>
-                                <option value="12:30">12:30</option>
-                                <option value="13:00">13:00</option>
-                                <option value="13:30">13:30</option>
-                                <option value="14:00">14:00</option>
-                                <option value="14:30">14:30</option>
-                                <option value="15:00">15:00</option>
-                                <option value="15:30">15:30</option>
-                                <option value="16:00">16:00</option>
-                                <option value="16:30">16:30</option>
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                            </select>
-                            <span>至</span>
-                            <select id="sunday-close-time" style="flex: 1;">
-                                <option value="17:00">17:00</option>
-                                <option value="17:30">17:30</option>
-                                <option value="18:00">18:00</option>
-                                <option value="18:30">18:30</option>
-                                <option value="19:00">19:00</option>
-                                <option value="19:30">19:30</option>
-                                <option value="20:00">20:00</option>
-                                <option value="20:30">20:30</option>
-                                <option value="21:00">21:00</option>
-                            </select>
-                        </div>
-                    </div>
+                    <input type="text" id="clinicBusinessHours" placeholder="例如：週一至週五 9:00-18:00">
                 </div>
                 <div class="form-group">
                     <label>狀態</label>
@@ -1509,12 +1214,6 @@
                         <option value="TCM">中醫</option>
                         <option value="Physiotherapy">物理治療</option>
                         <option value="BoneSetting">中醫正骨</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>所屬門店 *</label>
-                    <select id="doctorClinic" required>
-                        <option value="">請選擇門店</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -1621,7 +1320,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>選擇門店 *</label>
-                        <select id="scheduleClinic" required onchange="onClinicSelected(this.value)">
+                        <select id="scheduleClinic" required>
                             <option value="">請選擇門店</option>
                         </select>
                     </div>
@@ -1632,11 +1331,10 @@
                         </select>
                     </div>
                 </div>
-                <div id="business-hours-info" class="alert alert-info" style="display: none; margin-bottom: 16px;"></div>
                 <div class="form-row">
                     <div class="form-group">
                         <label>日期 *</label>
-                        <input type="date" id="scheduleDate" required onchange="onDateSelected(document.getElementById('scheduleClinic').value, this.value)">
+                        <input type="date" id="scheduleDate" required>
                     </div>
                     <div class="form-group">
                         <label>時間 *</label>
@@ -1914,42 +1612,8 @@
             } catch (e) {
                 // Use mock data if API fails
                 clinics = [
-                    { 
-                        id: 1, 
-                        name: '青苗綜合醫療診所', 
-                        description: '綜合醫療服務', 
-                        phone: '2123-4567', 
-                        address: '香港島中環', 
-                        bookingWindow: 14, 
-                        active: true,
-                        businessHours: {
-                            monday: { isOpen: true, open: '09:00', close: '18:00' },
-                            tuesday: { isOpen: true, open: '09:00', close: '18:00' },
-                            wednesday: { isOpen: true, open: '09:00', close: '18:00' },
-                            thursday: { isOpen: true, open: '09:00', close: '18:00' },
-                            friday: { isOpen: true, open: '09:00', close: '18:00' },
-                            saturday: { isOpen: false, open: '09:00', close: '18:00' },
-                            sunday: { isOpen: false, open: '09:00', close: '18:00' }
-                        }
-                    },
-                    { 
-                        id: 2, 
-                        name: '青苗中藥房', 
-                        description: '中藥配劑服務', 
-                        phone: '2123-4568', 
-                        address: '九龍尖沙咀', 
-                        bookingWindow: 7, 
-                        active: true,
-                        businessHours: {
-                            monday: { isOpen: true, open: '10:00', close: '19:00' },
-                            tuesday: { isOpen: true, open: '10:00', close: '19:00' },
-                            wednesday: { isOpen: true, open: '10:00', close: '19:00' },
-                            thursday: { isOpen: true, open: '10:00', close: '19:00' },
-                            friday: { isOpen: true, open: '10:00', close: '19:00' },
-                            saturday: { isOpen: true, open: '10:00', close: '19:00' },
-                            sunday: { isOpen: false, open: '10:00', close: '19:00' }
-                        }
-                    }
+                    { id: 1, name: '青苗綜合醫療診所', description: '綜合醫療服務', phone: '2123-4567', address: '香港島中環', businessHours: '週一至週五 9:00-18:00', bookingWindow: 14, active: true },
+                    { id: 2, name: '青苗中藥房', description: '中藥配劑服務', phone: '2123-4568', address: '九龍尖沙咀', businessHours: '週一至週六 10:00-19:00', bookingWindow: 7, active: true }
                 ];
                 renderClinicsTable();
             }
@@ -1962,9 +1626,9 @@
                 renderDoctorsGrid();
             } catch (e) {
                 doctors = [
-                    { id: 1, name: '陳醫生', avatar: '', description: '資深中醫，擅長內科調理', type: 'TCM', clinicId: 1, active: true },
-                    { id: 2, name: '李醫生', avatar: '', description: '物理治療專家', type: 'Physiotherapy', clinicId: 1, active: true },
-                    { id: 3, name: '王醫生', avatar: '', description: '中醫正骨傳承', type: 'BoneSetting', clinicId: 2, active: true }
+                    { id: 1, name: '陳醫生', avatar: '', description: '資深中醫，擅長內科調理', type: 'TCM', active: true },
+                    { id: 2, name: '李醫生', avatar: '', description: '物理治療專家', type: 'Physiotherapy', active: true },
+                    { id: 3, name: '王醫生', avatar: '', description: '中醫正骨傳承', type: 'BoneSetting', active: true }
                 ];
                 renderDoctorsGrid();
             }
@@ -2221,15 +1885,9 @@
             document.getElementById('clinicImage').value = '';
             document.getElementById('clinicPhone').value = '';
             document.getElementById('clinicAddress').value = '';
+            document.getElementById('clinicBusinessHours').value = '';
             document.getElementById('clinicBookingWindow').value = '14';
             document.getElementById('clinicActive').checked = true;
-            // Set default business hours
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-            days.forEach(day => {
-                document.getElementById(`${day}-open`).checked = (day !== 'saturday' && day !== 'sunday');
-                document.getElementById(`${day}-open-time`).value = '09:00';
-                document.getElementById(`${day}-close-time`).value = '18:00';
-            });
             document.getElementById('clinicModal').classList.add('active');
         }
         
@@ -2244,39 +1902,24 @@
             document.getElementById('clinicImage').value = clinic.image || '';
             document.getElementById('clinicPhone').value = clinic.phone;
             document.getElementById('clinicAddress').value = clinic.address;
+            document.getElementById('clinicBusinessHours').value = clinic.businessHours || '';
             document.getElementById('clinicBookingWindow').value = clinic.bookingWindow || 14;
             document.getElementById('clinicActive').checked = clinic.active;
-            
-            // Populate business hours
-            const bh = clinic.businessHours;
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-            if (bh && typeof bh === 'object') {
-                days.forEach(day => {
-                    if (bh[day]) {
-                        document.getElementById(`${day}-open`).checked = bh[day].isOpen || false;
-                        document.getElementById(`${day}-open-time`).value = bh[day].open || '09:00';
-                        document.getElementById(`${day}-close-time`).value = bh[day].close || '18:00';
-                    }
-                });
-            }
             document.getElementById('clinicModal').classList.add('active');
         }
         
         function openDoctorModal() {
-            populateDoctorClinicSelect();
             document.getElementById('doctorModalTitle').textContent = '新增醫生';
             document.getElementById('doctorId').value = '';
             document.getElementById('doctorName').value = '';
             document.getElementById('doctorAvatar').value = '';
             document.getElementById('doctorDescription').value = '';
             document.getElementById('doctorType').value = 'TCM';
-            document.getElementById('doctorClinic').value = '';
             document.getElementById('doctorActive').checked = true;
             document.getElementById('doctorModal').classList.add('active');
         }
         
         function editDoctor(id) {
-            populateDoctorClinicSelect();
             const doctor = doctors.find(d => d.id === id);
             if (!doctor) return;
             
@@ -2286,7 +1929,6 @@
             document.getElementById('doctorAvatar').value = doctor.avatar || '';
             document.getElementById('doctorDescription').value = doctor.description || '';
             document.getElementById('doctorType').value = doctor.type;
-            document.getElementById('doctorClinic').value = doctor.clinicId || '';
             document.getElementById('doctorActive').checked = doctor.active;
             document.getElementById('doctorModal').classList.add('active');
         }
@@ -2343,11 +1985,10 @@
             document.getElementById('scheduleId').value = '';
             document.getElementById('scheduleDate').value = date || '';
             document.getElementById('scheduleClinic').value = '';
-            document.getElementById('scheduleDoctor').innerHTML = '<option value="">請選擇醫生</option>';
-            document.getElementById('scheduleTime').innerHTML = '<option value="">請選擇時間</option>';
+            document.getElementById('scheduleDoctor').value = '';
+            document.getElementById('scheduleTime').value = '';
             document.getElementById('scheduleService').value = '';
             document.getElementById('scheduleConflictAlert').style.display = 'none';
-            document.getElementById('business-hours-info').style.display = 'none';
             document.getElementById('scheduleModal').classList.add('active');
         }
         
@@ -2434,93 +2075,6 @@
                 services.filter(s => s.active).map(s => `<option value="${s.id}">${s.name}</option>`).join('');
         }
         
-        // Populate doctor clinic dropdown in doctor modal
-        function populateDoctorClinicSelect() {
-            const clinicSelect = document.getElementById('doctorClinic');
-            clinicSelect.innerHTML = '<option value="">請選擇門店</option>' + 
-                clinics.filter(c => c.active).map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-        }
-        
-        // When clinic is selected in schedule modal, filter doctors by clinic
-        async function onClinicSelected(clinicId) {
-            const doctorSelect = document.getElementById('scheduleDoctor');
-            const businessHoursInfo = document.getElementById('business-hours-info');
-            
-            if (!clinicId) {
-                doctorSelect.innerHTML = '<option value="">請選擇醫生</option>';
-                businessHoursInfo.style.display = 'none';
-                return;
-            }
-            
-            // Get clinic details
-            const clinic = clinics.find(c => c.id == clinicId);
-            if (clinic) {
-                // Display business hours info
-                const bh = clinic.businessHours;
-                if (bh && typeof bh === 'object') {
-                    const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
-                    const dayNames = ['一', '二', '三', '四', '五', '六', '日'];
-                    let hoursText = days
-                        .filter(d => bh[d] && bh[d].isOpen)
-                        .map((d, i) => `${dayNames[i]}: ${bh[d].open}-${bh[d].close}`)
-                        .join(' | ');
-                    businessHoursInfo.innerHTML = `<strong>門店營業時間:</strong> ${hoursText || '未設定'}`;
-                    businessHoursInfo.style.display = 'block';
-                }
-                
-                // Filter doctors by clinic
-                const clinicDoctors = doctors.filter(d => d.active && d.clinicId == clinicId);
-                doctorSelect.innerHTML = '<option value="">請選擇醫生</option>' + 
-                    clinicDoctors.map(d => `<option value="${d.id}">${d.name}</option>`).join('');
-            }
-        }
-        
-        // When date is selected, validate against business hours
-        function onDateSelected(clinicId, date) {
-            if (!clinicId || !date) return;
-            
-            const clinic = clinics.find(c => c.id == clinicId);
-            if (!clinic || !clinic.businessHours) return;
-            
-            const selectedDate = new Date(date);
-            const dayIndex = selectedDate.getDay(); // 0 = Sunday, 1 = Monday, etc.
-            const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
-            const dayName = days[dayIndex];
-            const dayHours = clinic.businessHours[dayName];
-            
-            if (!dayHours || !dayHours.isOpen) {
-                alert('診所喺呢日無營業');
-                document.getElementById('scheduleDate').value = '';
-                return;
-            }
-            
-            // Update time slots based on business hours
-            updateTimeSlots(dayHours.open, dayHours.close);
-        }
-        
-        // Update time slot dropdown based on business hours
-        function updateTimeSlots(openTime, closeTime) {
-            const timeSelect = document.getElementById('scheduleTime');
-            timeSelect.innerHTML = '<option value="">請選擇時間</option>';
-            
-            const [openHour, openMin] = openTime.split(':').map(Number);
-            const [closeHour, closeMin] = closeTime.split(':').map(Number);
-            
-            let currentMin = openHour * 60 + openMin;
-            const endMin = closeHour * 60 + closeMin;
-            
-            while (currentMin < endMin) {
-                const h = Math.floor(currentMin / 60);
-                const m = currentMin % 60;
-                const timeStr = `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-                const option = document.createElement('option');
-                option.value = timeStr;
-                option.textContent = timeStr;
-                timeSelect.appendChild(option);
-                currentMin += 30; // 30-minute slots
-            }
-        }
-        
         function sortTable(tableId, column) {
             const table = document.getElementById(tableId);
             const headers = table.querySelectorAll('th');
@@ -2582,45 +2136,9 @@
                 image: document.getElementById('clinicImage').value,
                 phone: document.getElementById('clinicPhone').value,
                 address: document.getElementById('clinicAddress').value,
+                businessHours: document.getElementById('clinicBusinessHours').value,
                 bookingWindow: parseInt(document.getElementById('clinicBookingWindow').value),
-                active: document.getElementById('clinicActive').checked,
-                businessHours: {
-                    monday: {
-                        isOpen: document.getElementById('monday-open').checked,
-                        open: document.getElementById('monday-open-time').value,
-                        close: document.getElementById('monday-close-time').value
-                    },
-                    tuesday: {
-                        isOpen: document.getElementById('tuesday-open').checked,
-                        open: document.getElementById('tuesday-open-time').value,
-                        close: document.getElementById('tuesday-close-time').value
-                    },
-                    wednesday: {
-                        isOpen: document.getElementById('wednesday-open').checked,
-                        open: document.getElementById('wednesday-open-time').value,
-                        close: document.getElementById('wednesday-close-time').value
-                    },
-                    thursday: {
-                        isOpen: document.getElementById('thursday-open').checked,
-                        open: document.getElementById('thursday-open-time').value,
-                        close: document.getElementById('thursday-close-time').value
-                    },
-                    friday: {
-                        isOpen: document.getElementById('friday-open').checked,
-                        open: document.getElementById('friday-open-time').value,
-                        close: document.getElementById('friday-close-time').value
-                    },
-                    saturday: {
-                        isOpen: document.getElementById('saturday-open').checked,
-                        open: document.getElementById('saturday-open-time').value,
-                        close: document.getElementById('saturday-close-time').value
-                    },
-                    sunday: {
-                        isOpen: document.getElementById('sunday-open').checked,
-                        open: document.getElementById('sunday-open-time').value,
-                        close: document.getElementById('sunday-close-time').value
-                    }
-                }
+                active: document.getElementById('clinicActive').checked
             };
             
             try {
@@ -2652,7 +2170,6 @@
                 avatar: document.getElementById('doctorAvatar').value,
                 description: document.getElementById('doctorDescription').value,
                 type: document.getElementById('doctorType').value,
-                clinicId: parseInt(document.getElementById('doctorClinic').value),
                 active: document.getElementById('doctorActive').checked
             };
             
