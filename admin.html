@@ -2026,20 +2026,34 @@
         }
         
         // ===== Render Functions =====
+        function formatBusinessHours(businessHours) {
+            if (!businessHours || typeof businessHours !== 'object') return '未設定';
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+            const dayNames = ['一', '二', '三', '四', '五', '六', '日'];
+            const result = [];
+            for (let i = 0; i < days.length; i++) {
+                const day = days[i];
+                if (businessHours[day] && businessHours[day].isOpen) {
+                    result.push(`${dayNames[i]}: ${businessHours[day].open}-${businessHours[day].close}`);
+                }
+            }
+            return result.join(' | ') || '未設定';
+        }
+        
         function renderClinicsTable() {
             const tbody = document.getElementById('clinicsTableBody');
             tbody.innerHTML = clinics.map(c => `
                 <tr>
-                    <td>${c.id}</td>
-                    <td>${c.name}</td>
-                    <td>${c.phone}</td>
-                    <td>${c.address}</td>
-                    <td>${c.businessHours || '-'}</td>
+                    <td>${c.id || c._id || ''}</td>
+                    <td>${c.name || '未知'}</td>
+                    <td>${c.phone || '-'}</td>
+                    <td>${c.address || '-'}</td>
+                    <td>${formatBusinessHours(c.businessHours)}</td>
                     <td>${c.bookingWindow || 14}天</td>
                     <td><span class="status-badge ${c.active ? 'status-active' : 'status-inactive'}">${c.active ? '啟用' : '停用'}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-secondary" onclick="editClinic(${c.id})">編輯</button>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('clinic', ${c.id})">刪除</button>
+                        <button class="btn btn-sm btn-secondary" onclick="editClinic(${c.id || c._id || 'null'})">編輯</button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('clinic', ${c.id || c._id || 'null'})">刪除</button>
                     </td>
                 </tr>
             `).join('');
@@ -2051,14 +2065,14 @@
             
             grid.innerHTML = doctors.map(d => `
                 <div class="doctor-card">
-                    <img src="${d.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%234A7C23%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2240%22>${d.name.charAt(0)}</text></svg>'}" 
-                         alt="${d.name}" class="doctor-avatar">
-                    <h4>${d.name}</h4>
-                    <p class="type">${typeNames[d.type] || d.type}</p>
+                    <img src="${d.avatar || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect fill=%22%234A7C23%22 width=%22100%22 height=%22100%22/><text x=%2250%22 y=%2255%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2240%22>${(d.name || '?').charAt(0)}</text></svg>'}" 
+                         alt="${d.name || '醫生'}" class="doctor-avatar">
+                    <h4>${d.name || '未知'}</h4>
+                    <p class="type">${typeNames[d.type] || d.type || '-'}</p>
                     <p class="description">${d.description || '暫無描述'}</p>
                     <div class="doctor-actions">
-                        <button class="btn btn-sm btn-secondary" onclick="editDoctor(${d.id})">編輯</button>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('doctor', ${d.id})">刪除</button>
+                        <button class="btn btn-sm btn-secondary" onclick="editDoctor(${d.id || d._id || 'null'})">編輯</button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('doctor', ${d.id || d._id || 'null'})">刪除</button>
                     </div>
                 </div>
             `).join('');
@@ -2068,14 +2082,14 @@
             const tbody = document.getElementById('servicesTableBody');
             tbody.innerHTML = services.map(s => `
                 <tr>
-                    <td>${s.id}</td>
-                    <td>${s.name}</td>
-                    <td>${s.duration}分鐘</td>
-                    <td>$${s.price}</td>
+                    <td>${s.id || s._id || ''}</td>
+                    <td>${s.name || '未知'}</td>
+                    <td>${s.duration || '-'}分鐘</td>
+                    <td>$${s.price || '0'}</td>
                     <td><span class="status-badge ${s.active ? 'status-active' : 'status-inactive'}">${s.active ? '啟用' : '停用'}</span></td>
                     <td>
-                        <button class="btn btn-sm btn-secondary" onclick="editService(${s.id})">編輯</button>
-                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('service', ${s.id})">刪除</button>
+                        <button class="btn btn-sm btn-secondary" onclick="editService(${s.id || s._id || 'null'})">編輯</button>
+                        <button class="btn btn-sm btn-danger" onclick="confirmDelete('service', ${s.id || s._id || 'null'})">刪除</button>
                     </td>
                 </tr>
             `).join('');
@@ -2084,17 +2098,17 @@
         function renderDoctorServicesTable() {
             const tbody = document.getElementById('doctorServicesTableBody');
             tbody.innerHTML = doctorServices.map(ds => {
-                const doctor = doctors.find(d => d.id === ds.doctorId);
-                const service = services.find(s => s.id === ds.serviceId);
+                const doctor = doctors.find(d => (d.id === ds.doctorId || d._id === ds.doctorId));
+                const service = services.find(s => (s.id === ds.serviceId || s._id === ds.serviceId));
                 return `
                     <tr>
-                        <td>${ds.id}</td>
-                        <td>${doctor ? doctor.name : '未知'}</td>
-                        <td>${service ? service.name : '未知'}</td>
+                        <td>${ds.id || ds._id || ''}</td>
+                        <td>${doctor?.name || ds.doctorName || '未知'}</td>
+                        <td>${service?.name || ds.serviceName || '未知'}</td>
                         <td><span class="status-badge ${ds.active ? 'status-active' : 'status-inactive'}">${ds.active ? '啟用' : '停用'}</span></td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" onclick="editDoctorService(${ds.id})">編輯</button>
-                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('doctorService', ${ds.id})">刪除</button>
+                            <button class="btn btn-sm btn-secondary" onclick="editDoctorService(${ds.id || ds._id || 'null'})">編輯</button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('doctorService', ${ds.id || ds._id || 'null'})">刪除</button>
                         </td>
                     </tr>
                 `;
@@ -2133,8 +2147,9 @@
                 const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const daySchedules = schedules.filter(s => s.date === dateStr);
                 const events = daySchedules.map(s => {
-                    const doctor = doctors.find(doc => doc.id === s.doctorId);
-                    return `<div class="event-item ${s.conflict ? 'conflict' : ''}">${doctor ? doctor.name : '醫生'} ${s.time}</div>`;
+                    const doctor = doctors.find(doc => (doc.id === s.doctorId || doc._id === s.doctorId));
+                    const doctorName = doctor?.name || s.doctorName || '醫生';
+                    return `<div class="event-item ${s.conflict ? 'conflict' : ''}">${doctorName} ${s.time || ''}</div>`;
                 }).join('');
                 
                 html += `
@@ -2186,23 +2201,23 @@
             const statusNames = { 'pending': '待確認', 'confirmed': '已確認', 'cancelled': '已取消' };
             
             tbody.innerHTML = filtered.map(a => {
-                const clinic = clinics.find(c => c.id === a.clinicId);
-                const doctor = doctors.find(d => d.id === a.doctorId);
-                const service = services.find(s => s.id === a.serviceId);
+                const clinic = clinics.find(c => (c.id === a.clinicId || c._id === a.clinicId));
+                const doctor = doctors.find(d => (d.id === a.doctorId || d._id === a.doctorId));
+                const service = services.find(s => (s.id === a.serviceId || s._id === a.serviceId));
                 
                 return `
                     <tr>
-                        <td>${a.id}</td>
-                        <td>${a.patientName}</td>
-                        <td>${a.patientPhone}</td>
-                        <td>${clinic ? clinic.name : '-'}</td>
-                        <td>${doctor ? doctor.name : '-'}</td>
-                        <td>${service ? service.name : '-'}</td>
-                        <td>${a.date} ${a.time}</td>
+                        <td>${a.id || a._id || ''}</td>
+                        <td>${a.patientName || '未知'}</td>
+                        <td>${a.patientPhone || '-'}</td>
+                        <td>${clinic?.name || a.clinicName || '-'}</td>
+                        <td>${doctor?.name || a.doctorName || '-'}</td>
+                        <td>${service?.name || a.serviceName || '-'}</td>
+                        <td>${a.date || ''} ${a.time || ''}</td>
                         <td><span class="status-badge status-${a.status}">${statusNames[a.status] || a.status}</span></td>
                         <td>
-                            <button class="btn btn-sm btn-secondary" onclick="editAppointment(${a.id})">編輯</button>
-                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('appointment', ${a.id})">刪除</button>
+                            <button class="btn btn-sm btn-secondary" onclick="editAppointment(${a.id || a._id || 'null'})">編輯</button>
+                            <button class="btn btn-sm btn-danger" onclick="confirmDelete('appointment', ${a.id || a._id || 'null'})">刪除</button>
                         </td>
                     </tr>
                 `;
